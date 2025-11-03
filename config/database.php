@@ -1,14 +1,24 @@
 <?php
 class Database {
-    private static $host = "localhost";
-    private static $dbname = "db_akademik";
-    private static $username = "root";
-    private static $password = "";
+    private $host = 'localhost';
+    private $db_name = 'db_akademik';
+    private $username = 'root';
+    private $password = '';
+    public $conn;
 
-    public static function connect() {
-        $conn = new PDO("mysql:host=".self::$host.";dbname=".self::$dbname, self::$username, self::$password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $conn;
+    public function getConnection() {
+        $this->conn = null;
+        try {
+            $this->conn = new PDO(
+                "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
+                $this->username,
+                $this->password
+            );
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $exception) {
+            echo "Connection error: " . $exception->getMessage();
+        }
+        return $this->conn;
     }
 }
 ?>

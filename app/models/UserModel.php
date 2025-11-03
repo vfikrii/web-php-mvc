@@ -1,11 +1,12 @@
 <?php
-require_once 'config/database.php';
+require_once 'config/database.php'; // BUKAN include atau require
 
 class UserModel {
     private $db;
 
     public function __construct() {
-        $this->db = Database::connect();
+        $database = new Database();
+        $this->db = $database->getConnection();
     }
 
     // 🔹 Fungsi Registrasi dengan Validasi Email Unik

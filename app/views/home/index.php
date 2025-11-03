@@ -3,8 +3,13 @@
   <p class="lead text-secondary">Website ini dibangun menggunakan PHP Native dengan arsitektur MVC dan Bootstrap 5.</p>
 
   <?php if(isset($_SESSION['user'])): ?>
-    <p class="mt-4">Halo, <strong><?= $_SESSION['user']; ?></strong> 👋<br>Anda telah login.</p>
+    <p class="mt-4">
+      Halo, <strong><?= htmlspecialchars($_SESSION['user']['username']); ?></strong> 👋<br>
+      Anda telah login.
+    </p>
+
     <a href="index.php?page=mahasiswa" class="btn btn-primary mt-3">Lihat Data Mahasiswa</a>
+    <a href="index.php?page=prodi" class="btn btn-primary mt-3">Lihat Data Prodi</a>
   <?php else: ?>
     <p class="mt-4">Silakan login atau daftar terlebih dahulu untuk mengelola data akademik.</p>
     <a href="index.php?page=login" class="btn btn-success me-2">Login</a>

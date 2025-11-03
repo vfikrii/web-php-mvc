@@ -1,23 +1,28 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <h2>Data Program Studi</h2>
-  <?php if(isset($_SESSION['user'])): ?>
-    <a href="index.php?page=tambah_prodi" class="btn btn-primary">Tambah Prodi</a>
-  <?php else: ?>
-    <a href="index.php?page=login" class="btn btn-outline-primary">Login untuk tambah</a>
-  <?php endif; ?>
+  <h3>Data Program Studi</h3>
+  <a href="index.php?page=prodi_create" class="btn btn-primary">+ Tambah Prodi</a>
 </div>
 
-<table class="table table-bordered table-hover">
+<table class="table table-striped table-bordered">
   <thead class="table-primary">
-    <tr><th>ID</th><th>Nama Prodi</th><th>Jenjang</th></tr>
+    <tr>
+      <th>No</th>
+      <th>Nama Prodi</th>
+      <th>Jenjang</th>
+      <th>Aksi</th>
+    </tr>
   </thead>
   <tbody>
-  <?php foreach ($data as $p): ?>
+    <?php $no=1; foreach($data as $p): ?>
     <tr>
-      <td><?= $p['id_prodi']; ?></td>
-      <td><?= $p['nama_prodi']; ?></td>
-      <td><?= $p['jenjang']; ?></td>
+      <td><?= $no++; ?></td>
+      <td><?= htmlspecialchars($p['nama_prodi']); ?></td>
+      <td><?= htmlspecialchars($p['jenjang']); ?></td>
+      <td>
+        <a href="index.php?page=prodi_edit&id=<?= $p['id_prodi']; ?>" class="btn btn-warning btn-sm">Edit</a>
+        <a href="index.php?page=prodi_delete&id=<?= $p['id_prodi']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus prodi ini?')">Hapus</a>
+      </td>
     </tr>
-  <?php endforeach; ?>
+    <?php endforeach; ?>
   </tbody>
 </table>

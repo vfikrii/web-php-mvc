@@ -1,45 +1,66 @@
 <?php
-$page = $_GET['page'] ?? 'home'; // 🔹 default: home
+session_start();
+$page = $_GET['page'] ?? 'home';
 
-switch($page) {
-    case 'home':
-        require 'app/controllers/HomeController.php';
-        (new HomeController())->index();
-        break;
+switch ($page) {
+  case 'login':
+    require 'app/controllers/AuthController.php';
+    (new AuthController())->login();
+    break;
 
-    case 'mahasiswa':
-        require 'app/controllers/MahasiswaController.php';
-        (new MahasiswaController())->index();
-        break;
+  case 'register':
+    require 'app/controllers/AuthController.php';
+    (new AuthController())->register();
+    break;
 
-    case 'tambah_mahasiswa':
-        require 'app/controllers/MahasiswaController.php';
-        (new MahasiswaController())->tambah();
-        break;
+  case 'logout':
+    require 'app/controllers/AuthController.php';
+    (new AuthController())->logout();
+    break;
 
-    case 'prodi':
-        require 'app/controllers/ProdiController.php';
-        (new ProdiController())->index();
-        break;
+  case 'mahasiswa':
+    require 'app/controllers/MahasiswaController.php';
+    (new MahasiswaController())->index();
+    break;
 
-    case 'tambah_prodi':
-        require 'app/controllers/ProdiController.php';
-        (new ProdiController())->tambah();
-        break;
+  case 'mahasiswa_create':
+    require 'app/controllers/MahasiswaController.php';
+    (new MahasiswaController())->create();
+    break;
 
-    case 'login':
-        require 'app/controllers/AuthController.php';
-        (new AuthController())->login();
-        break;
+  case 'mahasiswa_edit':
+    require 'app/controllers/MahasiswaController.php';
+    (new MahasiswaController())->edit();
+    break;
 
-    case 'register':
-        require 'app/controllers/AuthController.php';
-        (new AuthController())->register();
-        break;
+  case 'mahasiswa_delete':
+    require 'app/controllers/MahasiswaController.php';
+    (new MahasiswaController())->delete();
+    break;
 
-    case 'logout':
-        require 'app/controllers/AuthController.php';
-        (new AuthController())->logout();
-        break;
+  case 'prodi':
+    require 'app/controllers/ProdiController.php';
+    (new ProdiController())->index();
+    break;
+
+  case 'prodi_create':
+    require 'app/controllers/ProdiController.php';
+    (new ProdiController())->create();
+    break;
+
+  case 'prodi_edit':
+    require 'app/controllers/ProdiController.php';
+    (new ProdiController())->edit();
+    break;
+
+  case 'prodi_delete':
+    require 'app/controllers/ProdiController.php';
+    (new ProdiController())->delete();
+    break;
+
+  default:
+    require 'app/controllers/HomeController.php';
+    (new HomeController())->index();
+    break;
 }
 ?>

@@ -2,56 +2,65 @@
 require_once 'app/models/UserModel.php';
 
 class AuthController {
-    public function login() {
-        session_start();
-        if (isset($_SESSION['user'])) {
-            header('Location: index.php?page=mahasiswa');
-            exit;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $userModel = new UserModel();
-            $user = $userModel->login($_POST['username'], $_POST['password']);
-            if ($user) {
-                $_SESSION['user'] = $user['username'];
-                header('Location: index.php?page=mahasiswa');
-            } else {
-                $error = "Username atau password salah!";
-            }
-        }
-
-        include 'app/views/layout/header.php';
-        include 'app/views/auth/login.php';
-        include 'app/views/layout/footer.php';
-    }
-
-    public function register() {
+  public function login() {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $userModel = new UserModel();
+      $userModel = new UserModel();
+      $user = $userModel->login($_POST['username'], $_POST['password']);
 
-        $username = $_POST['username'];
-        $email    = $_POST['email'];
-        $password = $_POST['password'];
-
-        // Jika register() mengembalikan false → email sudah terdaftar
-        if (!$userModel->register($username, $email, $password)) {
-            $error = "Email sudah digunakan. Silakan pakai email lain.";
-        } else {
-            header('Location: index.php?page=login');
-            exit;
-        }
-    }
-    
-
-        include 'app/views/layout/header.php';
-        include 'app/views/auth/register.php';
-        include 'app/views/layout/footer.php';
+      if ($user) {
+        $_SESSION['user'] = $user;
+        header('Location: index.php');
+        exit;
+      } else {
+        $error = "Username / Password salah!";
+      }
     }
 
-    public function logout() {
-        session_start();
-        session_destroy();
+    include 'app/views/layout/header.php';
+    include 'app/views/auth/login.php';
+    include 'app/views/layout/footer.php';
+  }
+
+  public function register() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $userModel = new UserModel();
+      $success = $userModel->register($_POST['username'], $_POST['email'], $_POST['password']);
+
+      if ($success) {
         header('Location: index.php?page=login');
+        exit;
+      } else {
+        $error = "Username atau Email sudah terdaftar!";
+      }
     }
+
+
+    include 'app/views/layout/header.php';
+    include 'app/views/auth/register.php';
+    include 'app/views/layout/footer.php';
+  }
+
+  public function logout() {
+    session_start(); // pastikan session aktif
+
+    // Hapus semua data session
+    $_SESSION = [];
+
+    // Hapus cookie session (opsional tapi disarankan)
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+
+    // Hancurkan session
+    session_destroy();
+
+    // Arahkan ke halaman login
+    header("Location: index.php?page=login");
+    exit;
+}
 }
 ?>

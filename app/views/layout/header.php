@@ -23,7 +23,9 @@ if (session_status() === PHP_SESSION_NONE) {
       </ul>
       <ul class="navbar-nav">
         <?php if(isset($_SESSION['user'])): ?>
-          <li class="nav-item"><span class="nav-link">👋 <?= $_SESSION['user']; ?></span></li>
+          <li class="nav-item">
+            <span class="nav-link">👋 <?= htmlspecialchars($_SESSION['user']['username']); ?></span>
+          </li>
           <li class="nav-item"><a href="index.php?page=logout" class="nav-link">Logout</a></li>
         <?php else: ?>
           <li class="nav-item"><a href="index.php?page=login" class="nav-link">Login</a></li>
